@@ -1,0 +1,319 @@
+<head>
+    <title>Fashion Bidding Web</title>
+    <link rel="icon" href="../static/icon.png">
+    <meta charset="utf-8">
+    <div id="particles-js"></div>
+    {% load static %}
+    <script src="{% static './js/particles.js' %}"></script>
+    <script src="{% static './js/app.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+    <style>
+        body {
+            font-family: Calibri;
+        }
+        input {
+            -webkit-appearance: none;
+            border-width: 0;
+            border-bottom-width: 1;
+            border-bottom-color: rgb(150,150,150);
+            border-image: none;
+            font: inherit;
+            font-size: inherit;
+        }
+        button {
+            font-size: inherit;
+            font: inherit;
+            border-radius: 50px !important;
+            width: 80;
+            transition: background 250ms ease-in-out,
+                        transform 150ms ease;
+        }
+        button:active {
+            transform: scale(1.19);
+        }
+        .large_title {
+          margin: auto;
+          margin-top: 100;
+          text-align: center;
+        }
+        .image {
+          margin-left: 150;
+          display: inline;
+        }
+
+        .container {
+            display: flex;
+            width: 1000px;
+            margin: 0 auto;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .container > .description {
+          width: 400px;
+            margin-left: 50;
+        }
+        .originalPrice {
+            color: #4387ff;
+        }
+
+        #rcorners {
+            font-family: Lobster;
+            color: rgb(80,80,90);
+          position: absolute;
+            margin-left: auto;
+            margin-right: auto;
+            left: 0;
+            right: 0;
+            top: 570px;
+            display: flex;
+          border-radius: 5px;
+          border: 1px solid #4387ff;
+          text-align: center;
+          padding: 15px;
+          width: 350px;
+          height: 80px;
+            font-size: 19px;
+        }
+        .bid-subtitle {
+            width: 120px;
+            text-align: left;
+            line-height: 1.5;
+
+        }
+        .subtitle {
+            color: rgb(150,150,150);
+            margin-left: 50;
+        }
+        .bid-content {
+            width: 200;
+            text-align: left;
+            line-height: 1.5;
+
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #e7e7e7;
+            background-color: #f3f3f3;
+        }
+        li {
+            float: left;
+            margin: 10px;
+        }
+        .confirm{
+            margin:0 0.3em 0.3em 0;
+            border-radius:2em;
+            box-sizing: border-box;
+            text-decoration:none;
+            font-family:'Roboto',sans-serif;
+            font-weight:300;
+            color:#FFFFFF;
+            background-color:#4eb5f1;
+            text-align:center;
+            transition: all 0.2s;
+        }
+        .confirm:hover{
+            background-color:#4095c6;
+        }
+        @media all and (max-width:30em){
+            .confirm{
+                display:block;
+                margin:0.2em auto;
+            }
+        }
+        #particles-js {
+            position: fixed;
+            z-index: -100;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 42;
+            margin: 0 0;
+            display: inline;
+            background-color: rgb(40,40,50);
+            color: white;
+            z-index: 100;
+        }
+        .title {
+            color: white !important;
+            font-family: 'Lobster', serif;
+            font-size: 22;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            top: 6.5px;
+        }
+        .login {
+            color: white !important;
+            position: absolute;
+            right: 225;
+            top: 11.5;
+        }
+        .return{
+            color: white !important;
+            position: absolute;
+            right: 900;
+            top: 11.5;
+        }
+
+        img {
+            max-width: 200px;
+            max-height: 250px;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            z-index: -100;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+        .img-container{
+            height: 250px;
+            width: 200px
+        }
+    </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div>
+        <a class="title" href="/" title="Return to the main page">Fashion Auction Online</a>
+    </div>
+    <div class="buttons">
+        {% if user.is_authenticated%}
+        <li>
+            Hi, <a href={% url 'profile' user.id %} style="color:white">{{user.username}}</a>
+        </li>
+        <div>
+            <a class="login" href="/logout">
+                Log out
+            </a>
+        </div>
+        {% else %}
+        <div>
+            <a class="login" href="/login">
+                Log In
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class = "large_title">
+  <h1>
+    {{clothes.brand}} {{clothes.ctype}}
+  </h1>
+</div>
+
+    <div id="rcorners">
+        <div class="bid-subtitle">
+            <div>Bid Valid Until</div>
+
+            <div>Last Bid</div>
+
+            <div>Your Bid</div>
+        </div>
+        <div class="bid-content">
+            <div>{{ clothes.openuntil }}</div>
+
+            <div>${{ bidding.biddingprice }}</div>
+            <form action="/detail/{{ clothes.id }}/" method="post">
+                {% csrf_token %}
+                <div><input type="number" name="bidding_price" step="any" required id="id_bidding_price"></div>
+                <div><button type="submit">Bid</button></div>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+
+<div class="container">
+    <div class = "image">
+      <div class="img-container"><img src={{clothes.image.url}}></div>
+      <br>
+    </div>
+    <div class="subtitle">
+        <div>Size</div>
+        <br>
+        <div>Condition</div>
+        <br>
+        <div>Brand</div>
+        <br>
+        <div>Original Price</div>
+        <br>
+        <div>Lowest Bidding Price</div>
+        <br>
+        <div>Color</div>
+        <br>
+        <div>Contact Info</div>
+        <br>
+        <br>
+        <div>Status</div>
+        <br>
+        <div>Detail</div>
+        <br>
+
+    </div>
+    <div class = "description">
+        {{clothes.size}}
+        <br>
+        <br>
+        {{clothes.condition}}
+        <br>
+        <br>
+        {{clothes.brand}}
+        <br>
+        <br><div class="originalPrice">
+        ${{clothes.orginalprice}}
+        </div>
+        <br><div class="originalPrice">
+        ${{clothes.sellprice}}
+        </div>
+        <br>
+        {{clothes.color}}
+        <br>
+        <br>
+        Email: {{contact.email}}
+        <br>
+        Tele: {{contact.phone}}
+        <br>
+        <br>
+        {% if clothes.closed %}
+        <div>Closed</div>
+        {% else %}
+        <div>Open</div>
+        {% endif %}
+        <br>
+        {{clothes.details}}
+        <br>
+        <br>
+        <br>
+
+
+    </div>
+</div>
+</body>

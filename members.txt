@@ -1,0 +1,8 @@
+Chunxi Ding: Backend and database - wrote backend codes to develop the email notification and bidding features on details.html and assisted with data crawling
+McCourt Hu: Backend and database - wrote backend codes to develop functions on the signup.html, profile.html, details.html and index.html and wrote script for data crawling
+Amy Xiong: Backend and database - assisted with testing, debugging and data crawling and drafted documents
+Ben Yang: Front end - developed all html templates
+Lin Zuo: Backend - wrote backend codes to develop filter function for index.html and clothes.html and drafted documents
+
+
+

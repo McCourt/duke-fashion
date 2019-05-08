@@ -1,0 +1,280 @@
+<head>
+    <meta charset="utf-8">
+    <div id="particles-js"></div> 
+    {% load static %}
+    <script src="{% static './js/particles.js' %}"></script>
+    <script src="{% static './js/app.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+    
+
+    
+    <style>
+        button {
+            display: inline-block;
+            border: none;
+            padding: 1rem 1rem;
+            margin: 0;
+            text-decoration: none;
+            font-size: 15;
+            cursor: pointer;
+            text-align: center;
+            transition: background 250ms ease-in-out, 
+                        transform 150ms ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        button:hover,
+        button:focus {
+            text-decoration: underline;
+            background-color: white;
+        }
+
+        button:focus {
+            outline: 1px solid #fff;
+            outline-offset: -4px;
+        }
+
+        button:active {
+            transform: scale(1.39);
+        }
+        #particles-js {
+            position: fixed;
+            z-index: -100;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+        body {
+            font-family: calibri;
+        }
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
+        .sidebar {
+            position: fixed;
+            margin-top: 30;
+            margin-right: 30;
+            width: 230; 
+            left: 70px;
+            margin-left: 10px;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 42;
+            margin: 0 0;
+            display: inline;
+            background-color: rgb(40,40,50);
+            color: white;
+            z-index: 100;
+        }
+        input[type="radio"] {
+            visibility: hidden;
+            width: 0;
+        }
+        input.checked label:after {
+            color: black;
+        }
+        label {
+            color: rgb(180,180,180);
+        }
+        label:hover {
+            text-decoration: underline;
+        }
+        #sold {
+            display: flex;
+            width: 850px;
+            margin: 0 200 0 350;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        #bought {
+            display: flex;
+            width: 850px;
+            margin: 0 200 0 350;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+        .card {
+            width: 260px;
+            height: 375px;
+            border-style: solid;
+            border-width: 0px;
+            border-bottom-width: 0px;
+            border-radius: 0px;
+            border-color: rgb(200,200,200);
+            margin: 10px;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 1px solid #e7e7e7;
+            background-color: #f3f3f3;
+        }
+
+        li {
+            float: left;
+            margin: 10px;
+        }
+        .img {
+            max-width: 200px;
+            max-height: 250px;
+            width: 100%;
+            height: auto;
+            overflow: hidden;
+            z-index: -100;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .text {
+            margin: 10px;
+            text-decoration: none;
+        }
+        .buttons {
+            right: 150px;
+            top: 10px;
+        }
+        .title {
+            color: white !important;
+            font-family: 'Lobster', serif;
+            font-size: 22;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            top: 6.5px;
+        }
+        .name {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .price {
+            color: #4387ff;
+        }
+        .size-color {
+            color: rgb(140,140,140);
+        }
+        .login {
+            color: white !important;
+            position: absolute;
+            right: 150;
+            top: 11.5;
+        }
+        .clothes_link {
+             color: white !important;
+             position: absolute;
+             right: 225;
+             top: 11.5;
+         }
+        
+    </style>
+    
+
+</head>
+<body>
+
+<div class="navbar">
+    <div>
+        <a class="title" href="/">Fashion Auction Online</a>
+    </div>
+    <div class="buttons">
+        {% if user.is_authenticated%}
+        <li>
+            Hi, {{user.username}}
+        </li>
+        <div>
+            <a class="login" href="/logout">
+                Log out
+            </a>
+            <a class="clothes_link" href="/clothes">
+                 Submit a clothes item
+            </a>
+        </div>
+        {% else %}
+        <div>
+            <a class="login" href="/login">
+                Log In
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="sidebar">
+    <button id="soldButton" onclick="onSold()">Sales Record</button>
+    <button id="boughtButton" onclick="onBought()">Bidding Record</button>
+</div>
+
+<div id="sold">
+    {% for c in soldclothes %}
+    <a href="/detail/{{ c.id }}/">
+        <div class="card">
+            <img class = "img" src={{c.image.url}}>
+            <div class="text">
+                <div class="name">
+                    {{c.brand}} {{c.ctype}}
+                </div>
+                <div class="description">
+                    <span class="price">{{c.openuntil}}</span>
+                </div>
+                <div class="description">
+                    <span class="size-color">{{c.size}} {{c.color}}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+    
+<div id="bought">
+    {% for c in bidclothes %}
+    <a href="/detail/{{ c.id }}/">
+        <div class="card">
+            <img class = "img" src={{c.image.url}}>
+            <div class="text">
+                <div class="name">
+                    {{c.brand}} {{c.ctype}}
+                </div>
+                <div class="description">
+                    <span class="price">${{c.sellprice}}</span>
+                </div>
+                <div class="description">
+                    <span class="size-color">{{c.size}} {{c.color}}</span>
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+    <script>
+        function onSold() {
+                document.getElementById("sold").style.display = "flex";
+                document.getElementById("bought").style.display = "none";
+                document.getElementById("soldButton").style.textDecoration = "underline";
+                document.getElementById("boughtButton").style.textDecoration = "none";
+
+            }
+        function onBought() {
+                document.getElementById("bought").style.display = "flex";
+                document.getElementById("sold").style.display = "none";                
+            document.getElementById("boughtButton").style.textDecoration = "underline";
+            document.getElementById("soldButton").style.textDecoration = "none";
+
+        
+              }
+        onSold();
+            
+    </script>

@@ -1,0 +1,215 @@
+<head>
+    <title>Fashion Bidding Web</title>
+    <link rel="icon" href="../static/icon.png">
+    <meta charset="utf-8">
+    <div id="particles-js"></div> 
+    {% load static %}
+    <script src="{% static './js/particles.js' %}"></script>
+    <script src="{% static './js/app.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abril+Fatface" rel="stylesheet">
+    <style>
+        body {
+            font-family: Calibri;
+        }
+        li {
+            margin: 10;
+        }
+        #button {
+            display: inline-block;
+            border: none;
+            padding: 1rem 1rem;
+            margin: 0;
+            text-decoration: none;
+            font-size: 15;
+            cursor: pointer;
+            text-align: center;
+            transition: background 250ms ease-in-out, 
+                        transform 150ms ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-decoration: underline;
+        }
+
+        #button:hover,
+        #button:focus {
+            text-decoration: underline;
+            background-color: white;
+        }
+
+        #button:focus {
+            outline: 1px solid #fff;
+            outline-offset: -4px;
+        }
+
+        #button:active {
+            transform: scale(1.39);
+        }
+        input {
+            -webkit-appearance: none;
+            border-width: 0;
+            border-bottom-width: 1;
+            border-bottom-color: rgb(150,150,150);
+            border-image: none;
+            font-family: inherit;
+            font-size: inherit;
+            padding: 0;
+        }
+        .largetitle {
+            margin: auto;
+            text-align: center;
+            margin-top: 60;
+        }
+
+        .image {
+          margin-left: 200;
+          display: inline;
+        }
+        .content {
+            margin-top: 14;
+            margin-left: 50;
+        }
+        .content-field {
+            height: 48 !important;
+        }
+        .description {
+        line-height: 3;
+          display: flex;
+          position: absolute;
+          left: 50%;
+          transform: translate(-50%, 0);
+        }
+        .container {
+            display: flex;
+        }
+        .flex-container {
+          display: flex;
+          flex-wrap: nowrap;
+        }
+
+        .flex-container > div {
+          width: 350px;
+          margin: 10px;
+          text-align: center
+        }
+        #rcorners {
+          border-radius: 25px;
+          border: 2px solid #73AD21;
+          text-align: center;ß
+          padding: 20px;
+          width: 500px;
+          height: 50px;
+        }
+        #particles-js {
+            position: fixed;
+            z-index: -100;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        a:link {
+            text-decoration: none;
+            color: black;
+        }
+        a:visited {
+            color: black;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 42;
+            margin: 0 0;
+            display: inline;
+            background-color: rgb(40,40,50);
+            color: white;
+            z-index: 100;
+        }
+        .title {
+            color: white !important;
+            font-family: 'Lobster', serif;
+            font-size: 22;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            top: 6.5px;
+        }
+        .login {
+            color: white !important;
+            position: absolute;
+            right: 150;
+            top: 11.5;
+        }
+    </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div>
+        <a class="title" href="/">Fashion Auction Online</a>
+    </div>
+    <div class="buttons">
+        {% if user.is_authenticated%}
+        <li>
+            Hi, <a href="/profile" style="color: white">{{user.username}}</a>
+        </li>
+        <div>
+            <a class="login" href="/logout">
+                Log out
+            </a>
+        </div>
+        {% else %}
+        <div>
+            <a class="login" href="/login">
+                Log In
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+    
+<div class = "largetitle">
+  <h1>
+     Submit your clothes item
+  </h1>
+</div>
+
+<div class="flex-container">
+    <form method="post" enctype="multipart/form-data">
+    <div class = "description">
+
+      <div class="subtitle">
+      {% csrf_token %}
+          {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.label_tag }}
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+          {% endfor %}
+          </div>
+          <div class="content">
+          {% for field in form %}
+            <div class="content-field">
+                {{ field }}
+                {% if field.help_text %}
+                    <p class="help">{{ field.help_text|safe }}</p>
+                {% endif %}
+            </div>
+          {% endfor %}
+        <input id="button" type="submit" value="Submit">
+
+        </div>
+          <br>
+        </div>
+
+    </form>
+</div>
+
+
+</body>
